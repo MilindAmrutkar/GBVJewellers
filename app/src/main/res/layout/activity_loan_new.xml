@@ -8,7 +8,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
 
     android:orientation="vertical"
-    tools:context="com.onestechsolution.gbvjewellers.Activity.LoanActivity">
+    tools:context="com.onestechsolution.gbvjewellers.Activity.NewLoanActivity">
     <LinearLayout
         android:focusableInTouchMode="true"
         android:orientation="vertical"
@@ -31,7 +31,7 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Product Id:"/>
+                android:text="Loan Id:"/>
 
             <TextView
                 android:id="@+id/tv_uuid_loan_activity"
@@ -64,6 +64,26 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:onClick="captureImage"
+                android:id="@+id/iv_customer_photo_loan_activity"
+                android:src="@drawable/capture_48"
+                android:layout_width="match_parent"
+                android:layout_height="70dp" />
+
+            <TextView
+                android:layout_gravity="center_horizontal"
+                android:textSize="15sp"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:text="Capture customers photo"/>
+        </LinearLayout>
 
 
         <LinearLayout
@@ -128,6 +148,8 @@
 
         </LinearLayout>
 
+
+
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
@@ -150,10 +172,10 @@
             android:orientation="horizontal">
             <TextView
                 android:textSize="20sp"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="No. of Items"/>
+                android:text="No. of types of Items"/>
 
             <Spinner
                 android:id="@+id/spnr_noOfItems_loan_activity"
@@ -185,7 +207,14 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Item"
+                android:text="Item type"
+                android:textSize="20sp"/>
+
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Item count"
                 android:textSize="20sp"/>
 
             <TextView
@@ -226,6 +255,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content" />
 
+            <Spinner
+                android:id="@+id/spnr_item1_type_count_loan_activity"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+
             <EditText
                 android:id="@+id/et_item1_weight_loan_activity"
                 android:layout_weight="1"
@@ -262,6 +297,12 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content" />
+
+            <Spinner
+                android:id="@+id/spnr_item2_type_count_loan_activity"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
 
             <EditText
                 android:id="@+id/et_item2_weight_loan_activity"
@@ -300,6 +341,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content" />
 
+            <Spinner
+                android:id="@+id/spnr_item3_type_count_loan_activity"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+
             <EditText
                 android:id="@+id/et_item3_weight_loan_activity"
                 android:layout_weight="1"
@@ -336,6 +383,12 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content" />
+
+            <Spinner
+                android:id="@+id/spnr_item4_type_count_loan_activity"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
 
             <EditText
                 android:id="@+id/et_item4_weight_loan_activity"
@@ -374,6 +427,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content" />
 
+            <Spinner
+                android:id="@+id/spnr_item5_type_count_loan_activity"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+
             <EditText
                 android:id="@+id/et_item5_weight_loan_activity"
                 android:layout_weight="1"
@@ -410,6 +469,12 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content" />
+
+            <Spinner
+                android:id="@+id/spnr_item6_type_count_loan_activity"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
 
             <EditText
                 android:id="@+id/et_item6_weight_loan_activity"
@@ -448,6 +513,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content" />
 
+            <Spinner
+                android:id="@+id/spnr_item7_type_count_loan_activity"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+
             <EditText
                 android:id="@+id/et_item7_weight_loan_activity"
                 android:layout_weight="1"
@@ -484,6 +555,12 @@
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content" />
+
+            <Spinner
+                android:id="@+id/spnr_item8_type_count_loan_activity"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
 
             <EditText
                 android:id="@+id/et_item8_weight_loan_activity"
@@ -523,13 +600,34 @@
 
         </LinearLayout>
 
-        <Button
-            android:text="Save"
-            android:textColor="#E6E6E6"
-            android:background="@drawable/buttonshape"
-            android:onClick="onSave"
-            style="@style/button"
-            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:layout_weight="1"
+                android:width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Save"
+                android:textColor="#E6E6E6"
+                android:background="@drawable/buttonshape"
+                android:onClick="onSave"
+                style="@style/button"
+                />
+
+            <Button
+                android:layout_weight="1"
+                android:width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Upload"
+                android:textColor="#E6E6E6"
+                android:background="@drawable/buttonshape"
+                android:onClick="onUpload"
+                style="@style/button"
+                />
+
+        </LinearLayout>
+
 
     </LinearLayout>
 
