@@ -52,7 +52,7 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
     private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
     public static final int MEDIA_TYPE_IMAGE = 1;
 
-    private static final String IMAGE_DIRECTORY_NAME = "GBV Jewellers";
+    private static final String IMAGE_DIRECTORY_NAME = "GBVLoans";
 
     String custImgPath, imgPath1, imgPath2, imgPath3, imgPath4, imgPath5, imgPath6, imgPath7, imgPath8;
 
@@ -221,8 +221,19 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
+       /* List<LinearLayout> listOfLtemsLayout = new ArrayList<LinearLayout>();
+        listOfLtemsLayout.add(llItem1);
+        listOfLtemsLayout.add(llItem2);
+        listOfLtemsLayout.add(llItem3);
+        listOfLtemsLayout.add(llItem4);
+        listOfLtemsLayout.add(llItem5);
+        listOfLtemsLayout.add(llItem6);
+        listOfLtemsLayout.add(llItem7);
+        listOfLtemsLayout.add(llItem8);*/
+
         Spinner spinner = (Spinner) parent;
         if (spinner.getId() == R.id.spnr_item1_itemlist_loan_activity) {
+           // parent.getSelectedItem();
             item1Type = parent.getItemAtPosition(position).toString();
         } else if (spinner.getId() == R.id.spnr_item2_itemlist_loan_activity) {
             item2Type = parent.getItemAtPosition(position).toString();
@@ -242,6 +253,26 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
             String noOfItems = parent.getItemAtPosition(position).toString();
             totalItemTypes = noOfItems;
             Log.i(TAG, "onItemSelected: totalItemTypes: " + totalItemTypes);
+
+            /*int itemchoice = Integer.parseInt(spnrNoOfItemTypes.getSelectedItem().toString());
+            if(itemchoice!=0)
+            {
+                for (int i = 0; i < listOfLtemsLayout.size(); i++) {
+                    if(i<=itemchoice)
+                    {
+                        listOfLtemsLayout.get(i).setVisibility(View.VISIBLE);
+                    }
+                    else
+                    {
+                        listOfLtemsLayout.get(i).setVisibility(View.GONE);
+                    }
+
+
+                }
+
+            }*/
+
+
             if (noOfItems.equalsIgnoreCase("1")) {
                 llItem1.setVisibility(View.VISIBLE);
                 llItem2.setVisibility(View.GONE);
@@ -381,6 +412,7 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
             Log.i(TAG, "captureImage: currentImageView: " + currentImageView);
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+            Log.i(TAG, "captureImage: fileUri: "+fileUri);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
             startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
         }
@@ -468,12 +500,14 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        Log.i(TAG, "onSaveInstanceState: fileUri: "+fileUri);
         outState.putParcelable("file_uri", fileUri);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
+        Log.i(TAG, "onRestoreInstanceState: fileUri: "+fileUri);
         fileUri = savedInstanceState.getParcelable("file_uri");
     }
 
@@ -497,10 +531,12 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
         }
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
                 Locale.getDefault()).format(new Date());
+        Log.i(TAG, "getOutputMediaFile: timeStamp: "+timeStamp);
         File mediaFile;
         if (type == MEDIA_TYPE_IMAGE) {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator
-                    + "IMG_" + timeStamp + ".jpg");
+                    + "GBG_" + timeStamp + ".jpg");
+            Log.i(TAG, "getOutputMediaFile: mediaFile: "+mediaFile);
         } else {
             return null;
         }
@@ -508,7 +544,6 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private void getFieldValues() {
-
         String uniqueId = tvUUId.getText().toString();
         String name = etName.getText().toString();
         String contact = etContact.getText().toString();
@@ -524,6 +559,8 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
         String itemWeight7 = etItem7Wt7.getText().toString();
         String itemWeight8 = etItem8Wt8.getText().toString();
         String description = etDescription.getText().toString();
+
+        loan.checkValue();
 
         if (uniqueId != null && !uniqueId.isEmpty()) {
             loan.setUniqueLoanId(uniqueId);

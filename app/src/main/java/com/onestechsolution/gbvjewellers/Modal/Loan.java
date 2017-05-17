@@ -14,6 +14,17 @@ public class Loan {
     private int noOfTypesOfItems;
     private double percentage;
 
+    public Loan(String uniqueLoanId, String customerName, String customerPhoto, String customerContactNumber, double amount) {
+        this.uniqueLoanId = uniqueLoanId;
+        this.customerName = customerName;
+        this.customerPhoto = customerPhoto;
+        this.customerContactNumber = customerContactNumber;
+        this.amount = amount;
+    }
+
+    public Loan() {
+    }
+
     public double getPercentage() {
         return percentage;
     }
@@ -338,4 +349,12 @@ public class Loan {
     public void setItem8PhotoPath(String item8PhotoPath) {
         this.item8PhotoPath = item8PhotoPath;
     }
+
+     public String checkValue()
+     {
+
+
+
+       return null;
+     }
 }

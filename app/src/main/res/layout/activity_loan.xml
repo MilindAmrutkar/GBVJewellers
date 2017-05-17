@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.onestechsolution.gbvjewellers.Activity.LoanActivity">
+
+    <Button
+        android:id="@+id/btn_newloan_loan_activity"
+        android:text="New Loan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="openNewLoanActivity"/>
+
+
+    <Button
+        android:text="Check existing Loan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="openExistingLoanActivity"/>
+
+</LinearLayout>
