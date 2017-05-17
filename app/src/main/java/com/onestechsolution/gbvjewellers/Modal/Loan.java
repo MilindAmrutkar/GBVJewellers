@@ -1,5 +1,7 @@
 package com.onestechsolution.gbvjewellers.Modal;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by Admin on 5/12/2017.
  */
@@ -37,6 +39,90 @@ public class Loan {
     private double item1Weight, item2Weight, item3Weight, item4Weight, item5Weight, item6Weight, item7Weight, item8Weight;
     private String item1Type, item2Type, item3Type, item4Type, item5Type, item6Type, item7Type, item8Type;
     private String item1PhotoPath, item2PhotoPath, item3PhotoPath, item4PhotoPath, item5PhotoPath, item6PhotoPath, item7PhotoPath, item8PhotoPath;
+
+    private Bitmap bmpItem1;
+    private Bitmap bmpItem2;
+    private Bitmap bmpItem3;
+    private Bitmap bmpItem4;
+    private Bitmap bmpItem5;
+    private Bitmap bmpItem6;
+    private Bitmap bmpItem7;
+    private Bitmap bmpItem8;
+    private Bitmap bmpPersonPhoto;
+
+    public Bitmap getBmpPersonPhoto() {
+        return bmpPersonPhoto;
+    }
+
+    public void setBmpPersonPhoto(Bitmap bmpPersonPhoto) {
+        this.bmpPersonPhoto = bmpPersonPhoto;
+    }
+
+
+
+    public Bitmap getBmpItem2() {
+        return bmpItem2;
+    }
+
+    public void setBmpItem2(Bitmap bmpItem2) {
+        this.bmpItem2 = bmpItem2;
+    }
+
+    public Bitmap getBmpItem3() {
+        return bmpItem3;
+    }
+
+    public void setBmpItem3(Bitmap bmpItem3) {
+        this.bmpItem3 = bmpItem3;
+    }
+
+    public Bitmap getBmpItem4() {
+        return bmpItem4;
+    }
+
+    public void setBmpItem4(Bitmap bmpItem4) {
+        this.bmpItem4 = bmpItem4;
+    }
+
+    public Bitmap getBmpItem5() {
+        return bmpItem5;
+    }
+
+    public void setBmpItem5(Bitmap bmpItem5) {
+        this.bmpItem5 = bmpItem5;
+    }
+
+    public Bitmap getBmpItem6() {
+        return bmpItem6;
+    }
+
+    public void setBmpItem6(Bitmap bmpItem6) {
+        this.bmpItem6 = bmpItem6;
+    }
+
+    public Bitmap getBmpItem7() {
+        return bmpItem7;
+    }
+
+    public void setBmpItem7(Bitmap bmpItem7) {
+        this.bmpItem7 = bmpItem7;
+    }
+
+    public Bitmap getBmpItem8() {
+        return bmpItem8;
+    }
+
+    public void setBmpItem8(Bitmap bmpItem8) {
+        this.bmpItem8 = bmpItem8;
+    }
+
+    public Bitmap getBmpItem1() {
+        return bmpItem1;
+    }
+
+    public void setBmpItem1(Bitmap bmpItem1) {
+        this.bmpItem1 = bmpItem1;
+    }
 
     public String getUniqueLoanId() {
         return uniqueLoanId;

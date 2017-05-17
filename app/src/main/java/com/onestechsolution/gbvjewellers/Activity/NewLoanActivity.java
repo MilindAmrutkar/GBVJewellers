@@ -26,6 +26,7 @@ import com.onestechsolution.gbvjewellers.Modal.Loan;
 import com.onestechsolution.gbvjewellers.R;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -41,6 +42,9 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
     TextView tvUUId;
     EditText etName, etContact, etAmount, etDescription;
     EditText etItem1Wt1, etItem2Wt2, etItem3Wt3, etItem4Wt4, etItem5Wt5, etItem6Wt6, etItem7Wt7, etItem8Wt8;
+
+    Bitmap bmpPersonPhoto, bmpItem1, bmpItem2, bmpItem3, bmpItem4, bmpItem5, bmpItem6, bmpItem7, bmpItem8;
+
 
     String percentage, totalItemTypes;
     String item1Type, item2Type, item3Type, item4Type, item5Type, item6Type, item7Type, item8Type;
@@ -435,43 +439,87 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
                 Toast.makeText(getApplicationContext(),
                         "Captured Successfully", Toast.LENGTH_SHORT).show();
                 if (currentImageView.equals(ivCustomerPhoto)) {
-                    custImgPath = fileUri.getPath();
+                    //custImgPath = fileUri.getPath();
+                    try {
+                        bmpPersonPhoto = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     previewCapturedImage();
                 } else if (currentImageView.equals(ivItem1)) {
                     ivItem1.setImageResource(R.drawable.saved_48);
-                    imgPath1 = fileUri.getPath();
-                    Log.i(TAG, "onActivityResult: imgPath1: " + imgPath1);
+                    //imgPath1 = fileUri.getPath();
+                    try {
+                        bmpItem1 = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    Log.i(TAG, "onActivityResult: bmpItem1: " + bmpItem1);
                 } else if (currentImageView == ivItem2) {
                     ivItem2.setImageResource(R.drawable.saved_48);
-                    imgPath2 = fileUri.getPath();
-                    Log.i(TAG, "onActivityResult: imgPath2: " + imgPath2);
+                    //imgPath2 = fileUri.getPath();
+                    try {
+                        bmpItem2 = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
+                    } catch(IOException e) {
+                        e.printStackTrace();
+                    }
+                    Log.i(TAG, "onActivityResult: bmpItem2: " + bmpItem2);
                 } else if (currentImageView == ivItem3) {
                     ivItem3.setImageResource(R.drawable.saved_48);
-                    imgPath3 = fileUri.getPath();
-                    Log.i(TAG, "onActivityResult: imgPath3: " + imgPath3);
+                    //imgPath3 = fileUri.getPath();
+                    try {
+                        bmpItem3 = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
+                    } catch(IOException e) {
+                        e.printStackTrace();
+                    }
+                    Log.i(TAG, "onActivityResult: bmpItem3: " + bmpItem3);
                 } else if (currentImageView == ivItem4) {
                     ivItem4.setImageResource(R.drawable.saved_48);
-                    imgPath4 = fileUri.getPath();
-                    Log.i(TAG, "onActivityResult: imgPath4: " + imgPath4);
+                    //imgPath4 = fileUri.getPath();
+                    try {
+                        bmpItem4 = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
+                    } catch(IOException e) {
+                        e.printStackTrace();
+                    }
+                    Log.i(TAG, "onActivityResult: bmpItem4: " + bmpItem4);
                 } else if (currentImageView == ivItem5) {
                     ivItem5.setImageResource(R.drawable.saved_48);
-                    imgPath5 = fileUri.getPath();
-                    Log.i(TAG, "onActivityResult: imgPath5: " + imgPath5);
+                    //imgPath5 = fileUri.getPath();
+                    try {
+                        bmpItem5 = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
+                    } catch(IOException e) {
+                        e.printStackTrace();
+                    }
+                    Log.i(TAG, "onActivityResult: bmpItem5: " + bmpItem5);
                 } else if (currentImageView == ivItem6) {
                     ivItem6.setImageResource(R.drawable.saved_48);
-                    imgPath6 = fileUri.getPath();
-                    Log.i(TAG, "onActivityResult: imgPath6: " + imgPath6);
+                    //imgPath6 = fileUri.getPath();
+                    try {
+                        bmpItem6 = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
+                    } catch(IOException e) {
+                        e.printStackTrace();
+                    }
+                    Log.i(TAG, "onActivityResult: bmpItem6: " + bmpItem6);
                 } else if (currentImageView == ivItem7) {
                     ivItem7.setImageResource(R.drawable.saved_48);
-                    imgPath7 = fileUri.getPath();
-                    Log.i(TAG, "onActivityResult: imgPath7: " + imgPath7);
+                    //imgPath7 = fileUri.getPath();
+                    try {
+                        bmpItem7 = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
+                    } catch(IOException e) {
+                        e.printStackTrace();
+                    }
+                    Log.i(TAG, "onActivityResult: bmpItem7: " + bmpItem7);
 
                 } else if (currentImageView == ivItem8) {
                     ivItem8.setImageResource(R.drawable.saved_48);
-                    imgPath8 = fileUri.getPath();
-                    Log.i(TAG, "onActivityResult: imgPath8: " + imgPath8);
+                    //imgPath8 = fileUri.getPath();
+                    try {
+                        bmpItem8 = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
+                    } catch(IOException e) {
+                        e.printStackTrace();
+                    }
+                    Log.i(TAG, "onActivityResult: bmpItem8: " + bmpItem8);
                 }
-
             } else if (resultCode == RESULT_CANCELED) {
                 Toast.makeText(getApplicationContext(),
                         "Image capture cancelled",
@@ -488,7 +536,6 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
     private void previewCapturedImage() {
         try {
             BitmapFactory.Options options = new BitmapFactory.Options();
-
             options.inSampleSize = 8;
             final Bitmap bitmap = BitmapFactory.decodeFile(fileUri.getPath(), options);
             ivCustomerPhoto.setImageBitmap(bitmap);
@@ -516,6 +563,8 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
     public Uri getOutputMediaFileUri(int type) {
         return Uri.fromFile(getOutputMediaFile(type));
     }
+
+
 
     private static File getOutputMediaFile(int type) {
         File mediaStorageDir = new File(
@@ -559,7 +608,7 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
         String itemWeight7 = etItem7Wt7.getText().toString();
         String itemWeight8 = etItem8Wt8.getText().toString();
         String description = etDescription.getText().toString();
-
+        //imgPath1 = Utilities.getStringImage(bmpItem1);
         loan.checkValue();
 
         if (uniqueId != null && !uniqueId.isEmpty()) {
@@ -588,9 +637,13 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
         loan.setPercentage(Double.parseDouble(percentage));
         loan.setNoOfTypesOfItems(Integer.parseInt(totalItemTypes));
         loan.setDescription(description);
-        loan.setCustomerPhoto(custImgPath);
+        //loan.setCustomerPhoto(custImgPath);
 
-        if (itemWeight1 != null && !itemWeight1.isEmpty()
+        if(bmpPersonPhoto!=null) {
+            loan.setBmpPersonPhoto(bmpPersonPhoto);
+        }
+
+        /*if (itemWeight1 != null && !itemWeight1.isEmpty()
                 && item1Count != null && !item1Count.isEmpty()
                 && imgPath1 != null && !imgPath1.isEmpty()
                 && item1Type != null && !item1Type.isEmpty()) {
@@ -600,16 +653,30 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
             loan.setItem1Type(item1Type);
         } else {
             Toast.makeText(this, "Please input all the values for the first item", Toast.LENGTH_SHORT).show();
+        }*/
+
+        if(itemWeight1!=null && !itemWeight1.isEmpty()
+                && item1Count !=null && !item1Count.isEmpty()
+                && bmpItem1!=null
+                && item1Type !=null && !item1Type.isEmpty()) {
+            loan.setItem1Count(Integer.parseInt(item1Count));
+            loan.setItem1Weight(Double.parseDouble(itemWeight1));
+            loan.setBmpItem1(bmpItem1);
+            loan.setItem1Type(item1Type);
+        } else {
+            Toast.makeText(this, "Please input all the values for the first item", Toast.LENGTH_SHORT).show();
         }
 
         if (llItem2.getVisibility() == View.VISIBLE) {
             if (itemWeight2 != null && !itemWeight2.isEmpty()
                     && item2Count != null && !item2Count.isEmpty()
-                    && imgPath2 != null && !imgPath2.isEmpty()
+                    /*&& imgPath2 != null && !imgPath2.isEmpty()*/
+                    && bmpItem2!=null
                     && item2Type != null && !item2Type.isEmpty()) {
                 loan.setItem2Count(Integer.parseInt(item2Count));
                 loan.setItem2Weight(Double.parseDouble(itemWeight2));
-                loan.setItem2PhotoPath(imgPath2);
+                //loan.setItem2PhotoPath(imgPath2);
+                loan.setBmpItem2(bmpItem2);
                 loan.setItem2Type(item2Type);
             } else {
                 Toast.makeText(this, "Please input all the values for the second item", Toast.LENGTH_SHORT).show();
@@ -619,11 +686,13 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
         if(llItem3.getVisibility() == View.VISIBLE) {
             if (itemWeight3 != null && !itemWeight3.isEmpty()
                     && item3Count != null && !item3Count.isEmpty()
-                    && imgPath3 != null && !imgPath3.isEmpty()
+                    //&& imgPath3 != null && !imgPath3.isEmpty()
+                    && bmpItem3!=null
                     && item3Type != null && !item3Type.isEmpty()) {
                 loan.setItem3Count(Integer.parseInt(item3Count));
                 loan.setItem3Weight(Double.parseDouble(itemWeight3));
-                loan.setItem3PhotoPath(imgPath3);
+                //loan.setItem3PhotoPath(imgPath3);
+                loan.setBmpItem3(bmpItem3);
                 loan.setItem3Type(item3Type);
             } else {
                 Toast.makeText(this, "Please input all the values for the third item", Toast.LENGTH_SHORT).show();
@@ -633,11 +702,13 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
         if(llItem4.getVisibility() == View.VISIBLE) {
             if (itemWeight4 != null && !itemWeight4.isEmpty()
                     && item4Count != null && !item4Count.isEmpty()
-                    && imgPath4 != null && !imgPath4.isEmpty()
+                    //&& imgPath4 != null && !imgPath4.isEmpty()
+                    && bmpItem4!=null
                     && item4Type != null && !item4Type.isEmpty()) {
                 loan.setItem4Count(Integer.parseInt(item4Count));
                 loan.setItem4Weight(Double.parseDouble(itemWeight4));
-                loan.setItem4PhotoPath(imgPath4);
+                //loan.setItem4PhotoPath(imgPath4);
+                loan.setBmpItem4(bmpItem4);
                 loan.setItem4Type(item4Type);
             } else {
                 Toast.makeText(this, "Please input all the values for the fourth item", Toast.LENGTH_SHORT).show();
@@ -647,11 +718,13 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
         if(llItem5.getVisibility() == View.VISIBLE) {
             if (itemWeight5 != null && !itemWeight5.isEmpty()
                     && item5Count != null && !item5Count.isEmpty()
-                    && imgPath5 != null && !imgPath5.isEmpty()
+                    //&& imgPath5 != null && !imgPath5.isEmpty()
+                    && bmpItem5!=null
                     && item5Type != null && !item5Type.isEmpty()) {
                 loan.setItem5Count(Integer.parseInt(item5Count));
                 loan.setItem5Weight(Double.parseDouble(itemWeight5));
-                loan.setItem5PhotoPath(imgPath5);
+                loan.setBmpItem5(bmpItem5);
+                //loan.setItem5PhotoPath(imgPath5);
                 loan.setItem5Type(item5Type);
             } else {
                 Toast.makeText(this, "Please input all the values for the fifth item", Toast.LENGTH_SHORT).show();
@@ -661,11 +734,13 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
         if(llItem6.getVisibility() == View.VISIBLE) {
             if (itemWeight6 != null && !itemWeight6.isEmpty()
                     && item6Count != null && !item6Count.isEmpty()
-                    && imgPath6 != null && !imgPath6.isEmpty()
+                    //&& imgPath6 != null && !imgPath6.isEmpty()
+                    && bmpItem6!=null
                     && item6Type != null && !item6Type.isEmpty()) {
                 loan.setItem6Count(Integer.parseInt(item6Count));
                 loan.setItem6Weight(Double.parseDouble(itemWeight6));
-                loan.setItem6PhotoPath(imgPath6);
+                //loan.setItem6PhotoPath(imgPath6);
+                loan.setBmpItem6(bmpItem6);
                 loan.setItem6Type(item6Type);
             } else {
                 Toast.makeText(this, "Please input all the values for the sixth item", Toast.LENGTH_SHORT).show();
@@ -676,11 +751,13 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
         if(llItem7.getVisibility() == View.VISIBLE) {
             if (itemWeight7 != null && !itemWeight7.isEmpty()
                     && item7Count != null && !item7Count.isEmpty()
-                    && imgPath7 != null && !imgPath7.isEmpty()
+                    //&& imgPath7 != null && !imgPath7.isEmpty()
+                    && bmpItem7!=null
                     && item7Type != null && !item7Type.isEmpty()) {
                 loan.setItem7Count(Integer.parseInt(item7Count));
                 loan.setItem7Weight(Double.parseDouble(itemWeight7));
-                loan.setItem7PhotoPath(imgPath7);
+                //loan.setItem7PhotoPath(imgPath7);
+                loan.setBmpItem7(bmpItem7);
                 loan.setItem7Type(item7Type);
             } else {
                 Toast.makeText(this, "Please input all the values for the seventh item", Toast.LENGTH_SHORT).show();
@@ -691,17 +768,25 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
         if(llItem8.getVisibility() == View.VISIBLE) {
             if (itemWeight8 != null && !itemWeight8.isEmpty()
                     && item8Count != null && !item8Count.isEmpty()
-                    && imgPath8 != null && !imgPath8.isEmpty()
+                    //&& imgPath8 != null && !imgPath8.isEmpty()
+                    && bmpItem8!=null
                     && item8Type != null && !item8Type.isEmpty()) {
                 loan.setItem8Count(Integer.parseInt(item8Count));
                 loan.setItem8Weight(Double.parseDouble(itemWeight8));
-                loan.setItem8PhotoPath(imgPath8);
+                //loan.setItem8PhotoPath(imgPath8);
+                loan.setBmpItem8(bmpItem8);
                 loan.setItem8Type(item8Type);
             } else {
                 Toast.makeText(this, "Please input all the values for the eighth item", Toast.LENGTH_SHORT).show();
             }
         }
 
+        Log.i(TAG, "getFieldValues: Values: \n"+
+                        "uniqueId: "+loan.getUniqueLoanId()+"name: "+loan.getCustomerName()+ " bmpItem1: "+loan.getBmpItem1()+
+                " bmpItem2: "+loan.getBmpItem2()+ " bmpItem3: "+loan.getBmpItem3()+
+                " bmpItem4: "+loan.getBmpItem4() + " bmpItem5: "+loan.getBmpItem5()+
+                " bmpItem6: "+loan.getBmpItem6() + " bmpItem7: "+loan.getBmpItem7()+
+                " bmpItem8: "+loan.getBmpItem8());
 
         Toast.makeText(this, "Values: \n" +
                         "uniqueId: " + loan.getUniqueLoanId() +"\n"+
@@ -713,6 +798,7 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
                         " description: "+loan.getDescription() +"\n"+
                         " itemWeight1: "+loan.getItem1Weight()+"\n" +
                         " photoPath1: "+loan.getItem1PhotoPath() +"\n"+
+                        " bmpItem1: "+loan.getBmpItem1() + "\n"+
                         " item1Type: "+loan.getItem1Type()+"\n"+
                         " item1Count: "+loan.getItem1Count() +"\n"+
                         " itemWeight2: "+loan.getItem2Weight()+"\n" +
