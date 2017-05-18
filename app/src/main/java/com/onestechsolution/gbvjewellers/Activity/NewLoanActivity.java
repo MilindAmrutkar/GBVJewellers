@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -24,14 +23,11 @@ import com.onestechsolution.gbvjewellers.Asynctask.SendLoanDetails;
 import com.onestechsolution.gbvjewellers.GenerateUniqueId;
 import com.onestechsolution.gbvjewellers.Modal.Loan;
 import com.onestechsolution.gbvjewellers.R;
+import com.onestechsolution.gbvjewellers.Utilities.Utilities;
 
-import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class NewLoanActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
@@ -55,10 +51,8 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
     ImageView currentImageView;
     private static final int CAMERA_CAPTURE_IMAGE_REQUEST_CODE = 100;
     public static final int MEDIA_TYPE_IMAGE = 1;
+    private Utilities utilities;
 
-    private static final String IMAGE_DIRECTORY_NAME = "GBVLoans";
-
-    String custImgPath, imgPath1, imgPath2, imgPath3, imgPath4, imgPath5, imgPath6, imgPath7, imgPath8;
 
     private Uri fileUri;
     private Loan loan;
@@ -72,6 +66,8 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loan_new);
 
+
+        utilities = new Utilities(this);
         loan = new Loan();
 
         //Method to add references (xml to java)
@@ -237,7 +233,7 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
 
         Spinner spinner = (Spinner) parent;
         if (spinner.getId() == R.id.spnr_item1_itemlist_loan_activity) {
-           // parent.getSelectedItem();
+            // parent.getSelectedItem();
             item1Type = parent.getItemAtPosition(position).toString();
         } else if (spinner.getId() == R.id.spnr_item2_itemlist_loan_activity) {
             item2Type = parent.getItemAtPosition(position).toString();
@@ -415,8 +411,9 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
 
             Log.i(TAG, "captureImage: currentImageView: " + currentImageView);
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
-            Log.i(TAG, "captureImage: fileUri: "+fileUri);
+            //fileUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+            fileUri = utilities.getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+            Log.i(TAG, "captureImage: fileUri: " + fileUri);
             intent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
             startActivityForResult(intent, CAMERA_CAPTURE_IMAGE_REQUEST_CODE);
         }
@@ -425,11 +422,7 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
     }
 
     private boolean isDeviceSupportCamera() {
-        if (getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
-            return true;
-        } else {
-            return false;
-        }
+        return getApplicationContext().getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA);
     }
 
     @Override
@@ -440,17 +433,28 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
                         "Captured Successfully", Toast.LENGTH_SHORT).show();
                 if (currentImageView.equals(ivCustomerPhoto)) {
                     //custImgPath = fileUri.getPath();
-                    try {
-                        bmpPersonPhoto = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
-                    } catch (IOException e) {
+                    //try {
+                        //bmpPersonPhoto = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
+                        //bmpPersonPhoto = Utilities.getSmallBitmap(fileUri.getPath());
+                        //bmpPersonPhoto = utilities.compressImage(fileUri.getPath());
+
+                        //Log.i(TAG, "onActivityResult: bmpPersonPhoto.getGenerationId(): " + bmpPersonPhoto.getGenerationId());
+                        //bmpPersonPhoto = Utilities.decodeSampleBitmapFromResource(getResources(), bmpPersonPhoto.getGenerationId(), 200, 200);
+                        Log.i(TAG, "onActivityResult: bmpPersonPhoto: " + bmpPersonPhoto);
+
+                        //bmpPersonPhoto = Utilities.getSmallBitmap(fileUri);
+                   /* } catch (IOException e) {
                         e.printStackTrace();
-                    }
+                    }*/
                     previewCapturedImage();
                 } else if (currentImageView.equals(ivItem1)) {
                     ivItem1.setImageResource(R.drawable.saved_48);
                     //imgPath1 = fileUri.getPath();
                     try {
                         bmpItem1 = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
+                        //Log.i(TAG, "onActivityResult: bmpItem1.getGenerationId(): " + bmpItem1.getGenerationId());
+                        //bmpItem1 = Utilities.decodeSampleBitmapFromResource(getResources(), bmpItem1.getGenerationId(), 200, 200);
+                        Log.i(TAG, "onActivityResult: bmpItem1: " + bmpItem1);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -460,7 +464,7 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
                     //imgPath2 = fileUri.getPath();
                     try {
                         bmpItem2 = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
-                    } catch(IOException e) {
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                     Log.i(TAG, "onActivityResult: bmpItem2: " + bmpItem2);
@@ -469,7 +473,7 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
                     //imgPath3 = fileUri.getPath();
                     try {
                         bmpItem3 = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
-                    } catch(IOException e) {
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                     Log.i(TAG, "onActivityResult: bmpItem3: " + bmpItem3);
@@ -478,7 +482,7 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
                     //imgPath4 = fileUri.getPath();
                     try {
                         bmpItem4 = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
-                    } catch(IOException e) {
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                     Log.i(TAG, "onActivityResult: bmpItem4: " + bmpItem4);
@@ -487,7 +491,7 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
                     //imgPath5 = fileUri.getPath();
                     try {
                         bmpItem5 = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
-                    } catch(IOException e) {
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                     Log.i(TAG, "onActivityResult: bmpItem5: " + bmpItem5);
@@ -496,7 +500,7 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
                     //imgPath6 = fileUri.getPath();
                     try {
                         bmpItem6 = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
-                    } catch(IOException e) {
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                     Log.i(TAG, "onActivityResult: bmpItem6: " + bmpItem6);
@@ -505,7 +509,7 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
                     //imgPath7 = fileUri.getPath();
                     try {
                         bmpItem7 = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
-                    } catch(IOException e) {
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                     Log.i(TAG, "onActivityResult: bmpItem7: " + bmpItem7);
@@ -515,7 +519,7 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
                     //imgPath8 = fileUri.getPath();
                     try {
                         bmpItem8 = MediaStore.Images.Media.getBitmap(getContentResolver(), fileUri);
-                    } catch(IOException e) {
+                    } catch (IOException e) {
                         e.printStackTrace();
                     }
                     Log.i(TAG, "onActivityResult: bmpItem8: " + bmpItem8);
@@ -547,23 +551,22 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.i(TAG, "onSaveInstanceState: fileUri: "+fileUri);
+        Log.i(TAG, "onSaveInstanceState: fileUri: " + fileUri);
         outState.putParcelable("file_uri", fileUri);
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        Log.i(TAG, "onRestoreInstanceState: fileUri: "+fileUri);
+        Log.i(TAG, "onRestoreInstanceState: fileUri: " + fileUri);
         fileUri = savedInstanceState.getParcelable("file_uri");
     }
 
 
-    //Helper methods
-    public Uri getOutputMediaFileUri(int type) {
+    //Helper methods shifted to Utilities
+   /* public Uri getOutputMediaFileUri(int type) {
         return Uri.fromFile(getOutputMediaFile(type));
     }
-
 
 
     private static File getOutputMediaFile(int type) {
@@ -580,17 +583,17 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
         }
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss",
                 Locale.getDefault()).format(new Date());
-        Log.i(TAG, "getOutputMediaFile: timeStamp: "+timeStamp);
+        Log.i(TAG, "getOutputMediaFile: timeStamp: " + timeStamp);
         File mediaFile;
         if (type == MEDIA_TYPE_IMAGE) {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator
                     + "GBG_" + timeStamp + ".jpg");
-            Log.i(TAG, "getOutputMediaFile: mediaFile: "+mediaFile);
+            Log.i(TAG, "getOutputMediaFile: mediaFile: " + mediaFile);
         } else {
             return null;
         }
         return mediaFile;
-    }
+    }*/
 
     private void getFieldValues() {
         String uniqueId = tvUUId.getText().toString();
@@ -639,7 +642,7 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
         loan.setDescription(description);
         //loan.setCustomerPhoto(custImgPath);
 
-        if(bmpPersonPhoto!=null) {
+        if (bmpPersonPhoto != null) {
             loan.setBmpPersonPhoto(bmpPersonPhoto);
         }
 
@@ -655,10 +658,10 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
             Toast.makeText(this, "Please input all the values for the first item", Toast.LENGTH_SHORT).show();
         }*/
 
-        if(itemWeight1!=null && !itemWeight1.isEmpty()
-                && item1Count !=null && !item1Count.isEmpty()
-                && bmpItem1!=null
-                && item1Type !=null && !item1Type.isEmpty()) {
+        if (itemWeight1 != null && !itemWeight1.isEmpty()
+                && item1Count != null && !item1Count.isEmpty()
+                && bmpItem1 != null
+                && item1Type != null && !item1Type.isEmpty()) {
             loan.setItem1Count(Integer.parseInt(item1Count));
             loan.setItem1Weight(Double.parseDouble(itemWeight1));
             loan.setBmpItem1(bmpItem1);
@@ -671,7 +674,7 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
             if (itemWeight2 != null && !itemWeight2.isEmpty()
                     && item2Count != null && !item2Count.isEmpty()
                     /*&& imgPath2 != null && !imgPath2.isEmpty()*/
-                    && bmpItem2!=null
+                    && bmpItem2 != null
                     && item2Type != null && !item2Type.isEmpty()) {
                 loan.setItem2Count(Integer.parseInt(item2Count));
                 loan.setItem2Weight(Double.parseDouble(itemWeight2));
@@ -683,11 +686,11 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
             }
         }
 
-        if(llItem3.getVisibility() == View.VISIBLE) {
+        if (llItem3.getVisibility() == View.VISIBLE) {
             if (itemWeight3 != null && !itemWeight3.isEmpty()
                     && item3Count != null && !item3Count.isEmpty()
                     //&& imgPath3 != null && !imgPath3.isEmpty()
-                    && bmpItem3!=null
+                    && bmpItem3 != null
                     && item3Type != null && !item3Type.isEmpty()) {
                 loan.setItem3Count(Integer.parseInt(item3Count));
                 loan.setItem3Weight(Double.parseDouble(itemWeight3));
@@ -699,11 +702,11 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
             }
         }
 
-        if(llItem4.getVisibility() == View.VISIBLE) {
+        if (llItem4.getVisibility() == View.VISIBLE) {
             if (itemWeight4 != null && !itemWeight4.isEmpty()
                     && item4Count != null && !item4Count.isEmpty()
                     //&& imgPath4 != null && !imgPath4.isEmpty()
-                    && bmpItem4!=null
+                    && bmpItem4 != null
                     && item4Type != null && !item4Type.isEmpty()) {
                 loan.setItem4Count(Integer.parseInt(item4Count));
                 loan.setItem4Weight(Double.parseDouble(itemWeight4));
@@ -715,11 +718,11 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
             }
         }
 
-        if(llItem5.getVisibility() == View.VISIBLE) {
+        if (llItem5.getVisibility() == View.VISIBLE) {
             if (itemWeight5 != null && !itemWeight5.isEmpty()
                     && item5Count != null && !item5Count.isEmpty()
                     //&& imgPath5 != null && !imgPath5.isEmpty()
-                    && bmpItem5!=null
+                    && bmpItem5 != null
                     && item5Type != null && !item5Type.isEmpty()) {
                 loan.setItem5Count(Integer.parseInt(item5Count));
                 loan.setItem5Weight(Double.parseDouble(itemWeight5));
@@ -731,11 +734,11 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
             }
         }
 
-        if(llItem6.getVisibility() == View.VISIBLE) {
+        if (llItem6.getVisibility() == View.VISIBLE) {
             if (itemWeight6 != null && !itemWeight6.isEmpty()
                     && item6Count != null && !item6Count.isEmpty()
                     //&& imgPath6 != null && !imgPath6.isEmpty()
-                    && bmpItem6!=null
+                    && bmpItem6 != null
                     && item6Type != null && !item6Type.isEmpty()) {
                 loan.setItem6Count(Integer.parseInt(item6Count));
                 loan.setItem6Weight(Double.parseDouble(itemWeight6));
@@ -748,11 +751,11 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
 
         }
 
-        if(llItem7.getVisibility() == View.VISIBLE) {
+        if (llItem7.getVisibility() == View.VISIBLE) {
             if (itemWeight7 != null && !itemWeight7.isEmpty()
                     && item7Count != null && !item7Count.isEmpty()
                     //&& imgPath7 != null && !imgPath7.isEmpty()
-                    && bmpItem7!=null
+                    && bmpItem7 != null
                     && item7Type != null && !item7Type.isEmpty()) {
                 loan.setItem7Count(Integer.parseInt(item7Count));
                 loan.setItem7Weight(Double.parseDouble(itemWeight7));
@@ -765,11 +768,11 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
         }
 
 
-        if(llItem8.getVisibility() == View.VISIBLE) {
+        if (llItem8.getVisibility() == View.VISIBLE) {
             if (itemWeight8 != null && !itemWeight8.isEmpty()
                     && item8Count != null && !item8Count.isEmpty()
                     //&& imgPath8 != null && !imgPath8.isEmpty()
-                    && bmpItem8!=null
+                    && bmpItem8 != null
                     && item8Type != null && !item8Type.isEmpty()) {
                 loan.setItem8Count(Integer.parseInt(item8Count));
                 loan.setItem8Weight(Double.parseDouble(itemWeight8));
@@ -781,54 +784,68 @@ public class NewLoanActivity extends AppCompatActivity implements AdapterView.On
             }
         }
 
-        Log.i(TAG, "getFieldValues: Values: \n"+
-                        "uniqueId: "+loan.getUniqueLoanId()+"name: "+loan.getCustomerName()+ " bmpItem1: "+loan.getBmpItem1()+
-                " bmpItem2: "+loan.getBmpItem2()+ " bmpItem3: "+loan.getBmpItem3()+
-                " bmpItem4: "+loan.getBmpItem4() + " bmpItem5: "+loan.getBmpItem5()+
-                " bmpItem6: "+loan.getBmpItem6() + " bmpItem7: "+loan.getBmpItem7()+
-                " bmpItem8: "+loan.getBmpItem8());
+        Log.i(TAG, "getFieldValues: Values: \n" +
+                "uniqueId: " + loan.getUniqueLoanId() + " name: " + loan.getCustomerName() + "\n" +
+                " contact: " + loan.getCustomerContactNumber() + " amount: " + loan.getAmount() + "\n" +
+                " percentage: " + loan.getPercentage() + " totalItemtypes: " + loan.getNoOfTypesOfItems() + "\n" +
+                " description: " + loan.getDescription() + " itemWeight1: " + loan.getItem1Weight() + "\n" +
+                " bmpItem1: " + loan.getBmpItem1() + " item1Type: " + loan.getItem1Type() + "\n" +
+                " item1Count: " + loan.getItem1Count() + " itemWeight2: " + loan.getItem2Weight() + "\n" +
+                " bmpItem2: " + loan.getBmpItem2() + " item2Type: " + loan.getItem2Type() + "\n" +
+                " item2Count: " + loan.getItem2Count() + " itemWeight3: " + loan.getItem3Weight() + "\n" +
+                " bmpItem3: " + loan.getBmpItem3() + " item3Type: " + loan.getItem3Type() + "\n" +
+                " item3Count: " + loan.getItem3Count() + " itemWeight4: " + loan.getItem4Weight() + "\n" +
+                " bmpItem4: " + loan.getBmpItem4() + " item4Type: " + loan.getItem4Type() + "\n" +
+                " item4Count: " + loan.getItem4Count() + " itemWeight5: " + loan.getItem5Weight() + "\n" +
+                " bmpItem5: " + loan.getBmpItem5() + " item5Type: " + loan.getItem5Type() + "\n" +
+                " item5Count: " + loan.getItem5Count() + " itemWeight6: " + loan.getItem6Weight() + "\n" +
+                " bmpItem6: " + loan.getBmpItem6() + " item6Type: " + loan.getItem6Type() + "\n" +
+                " item6Count: " + loan.getItem6Count() + " itemWeight7: " + loan.getItem7Weight() + "\n" +
+                " bmpItem7: " + loan.getBmpItem7() + " item7Type: " + loan.getItem7Type() + "\n" +
+                " item7Count: " + loan.getItem7Count() + " itemWeight8: " + loan.getItem8Weight() + "\n" +
+                " bmpItem8: " + loan.getBmpItem8() + " item8Type: " + loan.getItem8Type() + "\n" +
+                " item8Count: " + loan.getItem8Count());
 
         Toast.makeText(this, "Values: \n" +
-                        "uniqueId: " + loan.getUniqueLoanId() +"\n"+
-                        " name: " + loan.getCustomerName() +"\n"+
-                        " contact: " + loan.getCustomerContactNumber() +"\n"+
-                        " amount: "+ loan.getAmount() +"\n"+
-                        " percentage: "+loan.getPercentage() +"\n"+
-                        " totalItemtypes: "+loan.getNoOfTypesOfItems() +"\n"+
-                        " description: "+loan.getDescription() +"\n"+
-                        " itemWeight1: "+loan.getItem1Weight()+"\n" +
-                        " photoPath1: "+loan.getItem1PhotoPath() +"\n"+
-                        " bmpItem1: "+loan.getBmpItem1() + "\n"+
-                        " item1Type: "+loan.getItem1Type()+"\n"+
-                        " item1Count: "+loan.getItem1Count() +"\n"+
-                        " itemWeight2: "+loan.getItem2Weight()+"\n" +
-                        " photoPath2: "+loan.getItem2PhotoPath() +"\n"+
-                        " item2Type: "+loan.getItem2Type()+"\n"+
-                        " item2Count: "+loan.getItem2Count() +"\n"+
-                        " itemWeight3: "+loan.getItem3Weight() +"\n"+
-                        " photoPath3: "+loan.getItem3PhotoPath() +"\n"+
-                        " item3Type: "+loan.getItem3Type()+"\n"+
-                        " item3Count: "+loan.getItem3Count() +"\n"+
-                        " itemWeight4: "+loan.getItem4Weight() +"\n"+
-                        " photoPath4: "+loan.getItem4PhotoPath() +"\n"+
-                        " item4Type: "+loan.getItem4Type()+"\n"+
-                        " item4Count: "+loan.getItem4Count() +"\n"+
-                        " itemWeight5: "+loan.getItem5Weight() +"\n"+
-                        " photoPath5: "+loan.getItem5PhotoPath() +"\n"+
-                        " item5Type: "+loan.getItem5Type()+"\n"+
-                        " item5Count: "+loan.getItem5Count() +"\n"+
-                        " itemWeight6: "+loan.getItem6Weight() +"\n"+
-                        " photoPath6: "+loan.getItem6PhotoPath() +"\n"+
-                        " item6Type: "+loan.getItem6Type()+"\n"+
-                        " item6Count: "+loan.getItem6Count() +"\n"+
-                        " itemWeight7: "+loan.getItem7Weight() +"\n"+
-                        " photoPath7: "+loan.getItem7PhotoPath() +"\n"+
-                        " item7Type: "+loan.getItem7Type()+"\n"+
-                        " item7Count: "+loan.getItem7Count() +"\n"+
-                        " itemWeight8: "+loan.getItem8Weight() +"\n"+
-                        " photoPath8: "+loan.getItem8PhotoPath() +"\n"+
-                        " item8Type: "+loan.getItem8Type()+"\n"+
-                        " item8Count: "+loan.getItem8Count(),
+                        "uniqueId: " + loan.getUniqueLoanId() + "\n" +
+                        " name: " + loan.getCustomerName() + "\n" +
+                        " contact: " + loan.getCustomerContactNumber() + "\n" +
+                        " amount: " + loan.getAmount() + "\n" +
+                        " percentage: " + loan.getPercentage() + "\n" +
+                        " totalItemtypes: " + loan.getNoOfTypesOfItems() + "\n" +
+                        " description: " + loan.getDescription() + "\n" +
+                        " itemWeight1: " + loan.getItem1Weight() + "\n" +
+                        " bmpItem1: " + loan.getBmpItem1() + "\n" +
+                        " item1Type: " + loan.getItem1Type() + "\n" +
+                        " item1Count: " + loan.getItem1Count() + "\n" +
+                        " itemWeight2: " + loan.getItem2Weight() + "\n" +
+                        " bmpItem2: " + loan.getBmpItem2() + "\n" +
+                        " item2Type: " + loan.getItem2Type() + "\n" +
+                        " item2Count: " + loan.getItem2Count() + "\n" +
+                        " itemWeight3: " + loan.getItem3Weight() + "\n" +
+                        " bmpItem3: " + loan.getBmpItem3() + "\n" +
+                        " item3Type: " + loan.getItem3Type() + "\n" +
+                        " item3Count: " + loan.getItem3Count() + "\n" +
+                        " itemWeight4: " + loan.getItem4Weight() + "\n" +
+                        " bmpItem4: " + loan.getBmpItem4() + "\n" +
+                        " item4Type: " + loan.getItem4Type() + "\n" +
+                        " item4Count: " + loan.getItem4Count() + "\n" +
+                        " itemWeight5: " + loan.getItem5Weight() + "\n" +
+                        " bmpItem5: " + loan.getBmpItem5() + "\n" +
+                        " item5Type: " + loan.getItem5Type() + "\n" +
+                        " item5Count: " + loan.getItem5Count() + "\n" +
+                        " itemWeight6: " + loan.getItem6Weight() + "\n" +
+                        " bmpItem6: " + loan.getBmpItem6() + "\n" +
+                        " item6Type: " + loan.getItem6Type() + "\n" +
+                        " item6Count: " + loan.getItem6Count() + "\n" +
+                        " itemWeight7: " + loan.getItem7Weight() + "\n" +
+                        " bmpItem7: " + loan.getBmpItem7() + "\n" +
+                        " item7Type: " + loan.getItem7Type() + "\n" +
+                        " item7Count: " + loan.getItem7Count() + "\n" +
+                        " itemWeight8: " + loan.getItem8Weight() + "\n" +
+                        " bmpItem8: " + loan.getBmpItem8() + "\n" +
+                        " item8Type: " + loan.getItem8Type() + "\n" +
+                        " item8Count: " + loan.getItem8Count(),
                 Toast.LENGTH_SHORT).show();
 
     }
